@@ -1,0 +1,314 @@
+/* .site-header : height 80px */
+.site-header {
+    padding: 16px 0;
+    background-color: #FFF;
+    position: sticky;
+    top: 0;
+}
+
+.search-container {
+    position: relative;
+    margin: 0 1rem;
+}
+
+.input.search {
+    /* Search ICON */
+    background-size: 28px 28px;
+    background-image: url("../icons/search.svg");
+    background-repeat: no-repeat;
+    background-position: 15px center;
+
+    padding: 0;
+    padding-left: calc( 28px + 15px + 10px );
+
+    height: 48px;
+    width: 100%;
+}
+
+.search-mask {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+}
+.search-suggestion {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #FFF;
+
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+
+    z-index: 5;
+    padding: 1rem 2rem 2rem;
+    box-sizing: border-box;
+}
+
+.suggestion-title {
+    margin-bottom: 1rem;
+}
+
+.search-list {
+    display: flex;
+    gap: .5rem;
+}
+
+.search-item {
+    border-radius: 10rem;
+    padding: .5rem 1rem;
+    background-color: #EEE;
+}
+
+.search-item:hover {
+    background-color: #DDD;
+}
+
+:root {
+    --card-width: 200px;
+}
+/**
+Card
+ */
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+    background-color: pink;
+
+    height: 400px;
+    width: calc( calc(100% - 3rem) / 4);
+
+    border-radius: 1rem;
+    overflow: hidden;
+    /*width: var(--card-width);*/
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.card:hover {
+    filter: brightness(.7);
+}
+
+/**
+Detail
+ */
+.detail-mask {
+    position: fixed;
+    z-index: 100000001;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: rgba(255, 255, 255, .93);
+    /*background-color: rgba(0, 0, 0, 0.7);*/
+}
+
+.detail-stage {
+    position: fixed;
+    z-index: 100000002;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+}
+
+.detail-control {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.detail-image {
+    border-radius: 20px;
+    overflow: hidden;
+    user-select: none;
+}
+
+
+/**
+Upload
+ */
+.image-selector {
+    background-color: #FFF;
+    width: 80%;
+    border-radius: 20px;
+    margin: 6rem auto 0;
+
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.image-uploader {
+    width: 100%;
+    height: 550px;
+    border: 2px dashed #dadada;
+    box-sizing: border-box;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+    gap: 1rem;
+
+    cursor: pointer;
+}
+
+.image-fetcher {
+    margin-top: 2rem;
+    position: relative;
+    display: flex;
+}
+
+.image-fetcher .input {
+    background-color: #FFF;
+    border: 2px solid #dadada;
+    height: 60px;
+    padding-left: 2rem;
+
+    flex: 1;
+    margin-right: 4rem;
+
+    z-index: 2;
+}
+
+.image-fetcher .button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    background-color: #DFDFDF;
+    box-sizing: border-box;
+    padding-left: 2.5rem;
+    border-radius: 10px;
+}
+
+.image-fetcher .button:hover {
+    background-color: #e5e5e5;
+}
+
+.image-fetcher .button img {
+    height: 80%;
+}
+
+
+.image-fetcher .input::placeholder {
+    color: #A8A8A8;
+}
+
+/**
+Main Content
+ */
+
+.main-content {
+    width: 100%;
+    height: calc(100vh - 80px);
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+}
+
+.edit-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.setting-area {
+    width: 300px;
+    border-top: 1px solid #EEE;
+    background-color: #FFF;
+}
+
+.main-content .image-container {
+    width: 600px;
+    position: relative;
+}
+
+.crop-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* SVG Size have to set with PX, not %, for mask to work properly */
+    height: 799px;
+    width: 600px;
+}
+
+/**
+Setting Group
+ */
+.setting-group {
+
+}
+
+.group-title {
+    margin: 0;
+    text-align: center;
+    border-bottom: 1px solid #EEE;
+    padding: 1rem 0;
+
+    font-size: 18px;
+}
+
+.setting-item {
+    padding: 1rem;
+    border-bottom: 1px solid #EEE;
+}
+
+.crop-group .form-input {
+    width: 70px;
+    height: 30px;
+}
+
+/**
+Tag
+ */
+.tag-list {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.tag-item {
+    background-color: #E7E7E7;
+    color: #909090;
+    border-radius: 5px;
+
+    padding: .25rem;
+    padding-left: 1rem;
+
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.tag-item .button {
+    margin-left: .25rem;
+    height: 8px;
+}
+
+.tag-item .button img {
+    width: 8px;
+}
