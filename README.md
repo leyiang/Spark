@@ -1,2 +1,2 @@
 # Spark
-Find inspriation for you design.
+Find inspiration for you design.
