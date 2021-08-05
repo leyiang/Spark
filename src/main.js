@@ -1,4 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+import router from "./pages/router.js";
+import ComponentLoader from "@/components/ComponentLoader";
+
+createApp(App)
+    .use( router )
+    .use( ComponentLoader )
+    .mount('#app');
