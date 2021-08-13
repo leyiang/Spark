@@ -10,26 +10,33 @@ export default createStore({
             },
 
             tags: [],
+            image: null,
         }
     },
 
     mutations: {
-        setPosition( state, pos ) {
-            state.crop.pos = pos;
+        updateCrop( state, { type, value }) {
+            if( ! Object.keys( state.crop ).includes(type) ) return;
+            state.crop[ type ] = value;
         },
 
-        setSize( state, size ) {
-            state.crop.size = size;
+        updateTag( state, { type, tag }) {
+            const { tags } = state;
+            if( type === "add" ) {
+                if( tags.includes(tag) ) return;
+                tags.push(tag);
+            } else if ( type === "delete" ) {
+                tags.splice( tags.indexOf(tag), 1 );
+            }
         },
 
-        addTag( state, tag ) {
-            if( state.tags.includes(tag) ) return;
-            state.tags.push(tag);
-        },
+        updateImage( state, { type, value } ) {
+            if( type === "object" ) {
+                return state.image = value;
+            }
 
-        removeTag( state, tag ) {
-            let { tags } = state;
-            tags.splice( tags.indexOf(tag), 1 );
+            if( ! state.image ) state.image = {};
+            state.image[ type ] = value;
         }
     }
 });

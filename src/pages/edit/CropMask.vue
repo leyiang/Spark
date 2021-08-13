@@ -1,27 +1,31 @@
 <script>
   import { mapState, mapMutations } from "vuex";
   import handleDrag from "@/libs/Drag";
+  import Vec from "@/libs/Vec";
 
   const cursorMap = {
     t: "n", l: "w", r: "e", b: "s"
   };
 
   export default {
-    props: {
-      image: {
-        type: Object,
-        default: () => ({})
-      }
-    },
-
     data() {
       return {
         knobs: [ "tl", "tr", "br", "bl" ]
       }
     },
 
+    created() {
+      this.updateImage({
+        type: "renderSize",
+        value: new Vec( this.image.instance.width, this.image.instance.height )
+      });
+
+      console.log( this.image );
+    },
+
     methods: {
-      ...mapMutations(["setPosition", "setSize"]),
+      ...mapMutations(["updateCrop", "updateImage"]),
+
       handleMove( e ) {
         const origin = this.crop.pos.copy();
 
@@ -65,14 +69,14 @@
     },
 
     computed: {
-      ...mapState(["crop"]),
+      ...mapState(["crop", "image"]),
 
       maskStyle() {
         return {
-          width: this.image.width,
-          height: this.image.height,
+          width: this.image.instance.width,
+          height: this.image.instance.height,
         }
-      }
+      },
     }
   }
 </script>
