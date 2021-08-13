@@ -1,34 +1,39 @@
 <script>
   import { mapState, mapMutations } from "vuex";
   import handleDrag from "@/libs/Drag";
+  import Vec from "@/libs/Vec";
+  import { inRange } from "@/utils/helpers";
 
   const cursorMap = {
     t: "n", l: "w", r: "e", b: "s"
   };
 
   export default {
-    props: {
-      image: {
-        type: Object,
-        default: () => ({})
-      }
-    },
-
     data() {
       return {
         knobs: [ "tl", "tr", "br", "bl" ]
       }
     },
 
+    created() {
+      this.image.getRenderSize();
+    },
+
     methods: {
-      ...mapMutations(["setPosition", "setSize"]),
+      ...mapMutations(["updateCrop", "updateImage"]),
+
       handleMove( e ) {
         const origin = this.crop.pos.copy();
 
         handleDrag( e, ( delta ) => {
+          let bound = new Vec(
+              this.image.renderSize.x - this.crop.size.x,
+              this.image.renderSize.y - this.crop.size.y,
+          );
+
           this.crop.pos.set(
-              origin.x + delta.x,
-              origin.y + delta.y,
+              inRange( origin.x + delta.x, 0, bound.x ),
+              inRange( origin.y + delta.y, 0, bound.y ),
           );
         });
       },
@@ -37,9 +42,14 @@
         const origin = this.crop.size.copy();
 
         handleDrag( e, (delta) => {
+          let bound = new Vec(
+            this.image.renderSize.x - this.crop.pos.x,
+            this.image.renderSize.y - this.crop.pos.y,
+          );
+
           this.crop.size.set(
-              origin.x + delta.x,
-              origin.y + delta.y,
+              inRange( origin.x + delta.x, 0, bound.x ),
+              inRange( origin.y + delta.y, 0, bound.y ),
           );
         });
       },
@@ -65,14 +75,14 @@
     },
 
     computed: {
-      ...mapState(["crop"]),
+      ...mapState(["crop", "image"]),
 
       maskStyle() {
         return {
-          width: this.image.width,
-          height: this.image.height,
+          width: this.image.renderSize.x,
+          height: this.image.renderSize.y,
         }
-      }
+      },
     }
   }
 </script>

@@ -1,14 +1,14 @@
 <script>
-  import { ref } from "vue";
+  import {ref} from "vue";
   import CropMask from "./CropMask";
+  import { mapState, mapMutations } from "vuex";
+  import Vec from "@/libs/Vec";
+  import Image from "@/model/Image";
 
   export default {
     setup() {
       const imageHere = ref(null);
-
-      return {
-        imageHere
-      }
+      return { imageHere };
     },
 
     components: {
@@ -17,9 +17,7 @@
 
     data() {
       return {
-        image: null,
         imageReady: false,
-        dimension: "x",
       }
     },
 
@@ -28,11 +26,16 @@
       // this.global.editingURI = "https://img2.baidu.com/it/u=2530024688,2423182450&fm=26&fmt=auto&gp=0.jpg";
     },
 
+    computed: {
+      ...mapState(["image"]),
+    },
+
     mounted() {
       this.$loadImage( this.global.editingURI ).then( image => {
-        this.image = image;
+
+        this.updateImage( new Image(image) );
+
         this.imageHere.appendChild( image );
-        this.getDimension();
 
         this.$nextTick(() => {
           setTimeout(() => {
@@ -43,9 +46,7 @@
     },
 
     methods: {
-      getDimension() {
-        this.dimension = this.image.width > this.image.height ? "x" : "y";
-      }
+      ...mapMutations(["updateImage"]),
     }
   }
 </script>
@@ -57,13 +58,11 @@
       <!-- crop mask -->
       <CropMask
         v-if="imageReady"
-        :image="image"
-        :crop="crop"
       />
 
       <div
         ref="imageHere"
-        :class="['image-here', 'dimension-' + dimension ]"
+        :class="['image-here', 'dimension-' + image?.dimension ]"
       />
     </div>
   </div>
