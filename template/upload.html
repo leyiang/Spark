@@ -17,13 +17,13 @@
         <div class="content-area">
             <header class="site-header flex align-center">
                 <button class="button icon-button">
-                    <img src="./assets/icons/home.svg" alt="">
+                    <img :src="require('@/assets/icons/home.svg')" alt="">
                 </button>
 
                 <input type="text" class="search input flex-1">
 
                 <button class="button icon-button">
-                    <img src="./assets/icons/add.svg" alt="">
+                    <img :src="require('@/assets/icons/add.svg')" alt="">
                 </button>
             </header>
         </div>
@@ -33,7 +33,7 @@
         <input type="file" name="file_uploader" class="none">
 
         <div class="image-uploader">
-            <img src="./assets/icons/upload.svg" alt="">
+            <img :src="require('@/assets/icons/upload.svg')" alt="">
             <span class="bold">Drag and drop or click to upload</span>
             <span class="secondary">jpg / jpeg / png</span>
         </div>
@@ -42,7 +42,7 @@
             <input type="text" class="input" placeholder="Enter image uri">
 
             <button class="button">
-                <img src="./assets/icons/rightarrow.svg" alt="">
+                <img :src="require('@/assets/icons/rightarrow.svg')" alt="">
             </button>
         </div>
     </section>

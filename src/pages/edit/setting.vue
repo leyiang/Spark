@@ -1,0 +1,122 @@
+<script>
+  export default {
+    created() {
+    }
+  }
+</script>
+
+<template>
+  <aside class="setting-area">
+
+    <div class="setting-group crop-group">
+      <h2 class="group-title">CROP OPTIONS</h2>
+
+      <div class="setting-item">
+        <div class="between">
+          <span>Width (px)</span>
+          <input type="text" class="form-input">
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="between">
+          <span>Height (px)</span>
+          <input type="text" class="form-input">
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="between">
+          <span>Left (px)</span>
+          <input type="text" class="form-input">
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="between">
+          <span>Right (px)</span>
+          <input type="text" class="form-input">
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <h2 class="group-title">TAGS</h2>
+
+      <div class="setting-item">
+        <div class="tag-list">
+          <div class="tag-item">
+            <span>header</span>
+            <button class="button"><img :src="require('@/assets/icons/cross.svg')" alt=""></button>
+          </div>
+        </div>
+
+        <input type="text" class="form-input"
+               style="display: block; width: 100%"
+               placeholder="Enter tag name here"
+        >
+      </div>
+    </div>
+
+    <div class="full" style="margin-top: 5rem">
+      <div style="margin: 1rem">
+        <button class="button button-lg button-primary">Save</button>
+      </div>
+    </div>
+
+  </aside>
+</template>
+
+<style>
+/**
+Setting Group
+ */
+.group-title {
+  margin: 0;
+  text-align: center;
+  border-bottom: 1px solid #EEE;
+  padding: 1rem 0;
+
+  font-size: 18px;
+}
+
+.setting-item {
+  padding: 1rem;
+  border-bottom: 1px solid #EEE;
+}
+
+.crop-group .form-input {
+  width: 70px;
+  height: 30px;
+}
+
+/**
+Tag
+ */
+.tag-list {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.tag-item {
+  background-color: #E7E7E7;
+  color: #909090;
+  border-radius: 5px;
+
+  padding: .25rem;
+  padding-left: 1rem;
+
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.tag-item .button {
+  margin-left: .25rem;
+  height: 8px;
+}
+
+.tag-item .button img {
+  width: 8px;
+}
+</style>

@@ -20,7 +20,7 @@
         >
 
         <button class="button">
-          <img src="../assets/icons/rightarrow.svg" alt="">
+          <img :src="require('@/assets/icons/rightarrow.svg')" alt="">
         </button>
       </div>
     </form>
@@ -32,7 +32,7 @@
   export default {
     data() {
       return {
-        image_uri: null,
+        image_uri: "https://img1.baidu.com/it/u=1534343997,3964472585&fm=26&fmt=auto&gp=0.jpg",
       }
     },
 
@@ -67,7 +67,12 @@
       },
 
       fetchImage() {
-        console.log( this.image_uri );
+        this.$api.post("/image/fetch", {
+          path: this.image_uri
+        }).then( ({data}) => {
+          this.global.editingURI = data.data.path;
+          this.$router.push("/edit");
+        });
       }
     }
   }
@@ -129,11 +134,11 @@ Upload
   right: 0;
   top: 0;
   bottom: 0;
-  width: 100px;
+  width: 140px;
   background-color: #DFDFDF;
   box-sizing: border-box;
-  padding-left: 2.5rem;
-  border-radius: 10px;
+  padding-left: 4.5rem;
+  border-radius: 10rem;
 }
 
 .image-fetcher .button:hover {
@@ -143,7 +148,6 @@ Upload
 .image-fetcher .button img {
   height: 80%;
 }
-
 
 .image-fetcher .input::placeholder {
   color: #A8A8A8;

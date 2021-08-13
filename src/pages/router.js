@@ -13,13 +13,13 @@ const router = createRouter({
         {
             path: "/upload",
             name: "upload",
-            component: () => import("./upload")
+            component: () => import("./upload/index")
         },
 
         {
             path: "/edit",
             name: "edit",
-            component: () => import("./edit")
+            component: () => import("./edit/index")
         }
     ]
 });
