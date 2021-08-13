@@ -2,7 +2,7 @@
   import { mapState, mapMutations } from "vuex";
   import handleDrag from "@/libs/Drag";
   import Vec from "@/libs/Vec";
-  import {inRange} from "@/utils/helpers";
+  import { inRange } from "@/utils/helpers";
 
   const cursorMap = {
     t: "n", l: "w", r: "e", b: "s"
@@ -16,10 +16,7 @@
     },
 
     created() {
-      this.updateImage({
-        type: "renderSize",
-        value: new Vec( this.image.instance.width, this.image.instance.height )
-      });
+      this.image.getRenderSize();
     },
 
     methods: {
@@ -82,8 +79,8 @@
 
       maskStyle() {
         return {
-          width: this.image.instance.width,
-          height: this.image.instance.height,
+          width: this.image.renderSize.x,
+          height: this.image.renderSize.y,
         }
       },
     }

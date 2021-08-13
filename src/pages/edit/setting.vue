@@ -10,7 +10,7 @@
     },
 
     methods: {
-      ...mapMutations(["setPosition", "setSize", "removeTag", "addTag"]),
+      ...mapMutations(["updateCrop", "updateTag"]),
 
       handleChange( type, axis, event ) {
         let value = Number(event.target.value);
@@ -20,15 +20,24 @@
             ? new Vec( value, target.y )
             : new Vec( target.x, value );
 
-        type === "pos"
-          ? this.setPosition( result )
-          : this.setSize( result );
+        this.updateCrop({
+          type, value: result
+        });
       },
 
       handleAddTag() {
         if( this.tag.length === 0 ) return;
-        this.addTag( this.tag );
+
+        this.updateTag({
+          type: "add",
+          value: this.tag
+        });
+
         this.tag = "";
+      },
+
+      handleSave() {
+
       }
     },
 
@@ -126,7 +135,10 @@
 
     <div class="full" style="margin-top: 5rem">
       <div style="margin: 1rem">
-        <button class="button button-lg button-primary">Save</button>
+        <button
+          class="button button-lg button-primary"
+          @click="handleSave"
+        >Save</button>
       </div>
     </div>
 

@@ -20,23 +20,18 @@ export default createStore({
             state.crop[ type ] = value;
         },
 
-        updateTag( state, { type, tag }) {
+        updateTag( state, { type, value }) {
             const { tags } = state;
             if( type === "add" ) {
-                if( tags.includes(tag) ) return;
-                tags.push(tag);
+                if( tags.includes( value ) ) return;
+                tags.push( value );
             } else if ( type === "delete" ) {
-                tags.splice( tags.indexOf(tag), 1 );
+                tags.splice( tags.indexOf( value ), 1 );
             }
         },
 
-        updateImage( state, { type, value } ) {
-            if( type === "object" ) {
-                return state.image = value;
-            }
-
-            if( ! state.image ) state.image = {};
-            state.image[ type ] = value;
+        updateImage( state, image ) {
+            state.image = image;
         }
     }
 });

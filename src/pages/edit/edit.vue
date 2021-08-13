@@ -3,6 +3,7 @@
   import CropMask from "./CropMask";
   import { mapState, mapMutations } from "vuex";
   import Vec from "@/libs/Vec";
+  import Image from "@/model/Image";
 
   export default {
     setup() {
@@ -32,10 +33,7 @@
     mounted() {
       this.$loadImage( this.global.editingURI ).then( image => {
 
-        this.updateImage({
-          type: "object",
-          value: this.parseImage( image )
-        });
+        this.updateImage( new Image(image) );
 
         this.imageHere.appendChild( image );
 
@@ -49,15 +47,6 @@
 
     methods: {
       ...mapMutations(["updateImage"]),
-
-      parseImage( image ) {
-        return {
-          instance: image,
-          dimension: image.width > image.height ? "x" : "y",
-          naturalSize: new Vec( image.naturalWidth, image.naturalHeight ),
-          renderSize: null,
-        }
-      },
     }
   }
 </script>
