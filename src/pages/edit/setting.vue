@@ -4,7 +4,20 @@
 
   export default {
     methods: {
-      ...mapMutations(["setPosition", "setSize"])
+      ...mapMutations(["setPosition", "setSize"]),
+
+      handleChange( type, axis, event ) {
+        let value = Number(event.target.value);
+        let target = this.crop[ type ];
+
+        let result = axis === 'x'
+            ? new Vec( value, target.y )
+            : new Vec( target.x, value );
+
+        type === "pos"
+          ? this.setPosition( result )
+          : this.setSize( result );
+      }
     },
 
     computed: {
@@ -22,28 +35,48 @@
       <div class="setting-item">
         <div class="between">
           <span>Width (px)</span>
-          <input type="text" class="form-input" :value="crop.size.x">
+          <input
+            type="text"
+            class="form-input"
+            :value="crop.size.x"
+            @input="handleChange('size', 'x', $event)"
+          >
         </div>
       </div>
 
       <div class="setting-item">
         <div class="between">
           <span>Height (px)</span>
-          <input type="text" class="form-input" :value="crop.size.y">
+          <input
+            type="text"
+            class="form-input"
+            :value="crop.size.y"
+            @input="handleChange('size', 'y', $event)"
+          >
         </div>
       </div>
 
       <div class="setting-item">
         <div class="between">
           <span>Left (px)</span>
-          <input type="text" class="form-input" v-model="crop.pos.x">
+          <input
+            type="text"
+            class="form-input"
+            :value="crop.pos.x"
+            @input="handleChange('pos', 'x', $event)"
+          >
         </div>
       </div>
 
       <div class="setting-item">
         <div class="between">
-          <span>Right (px)</span>
-          <input type="text" class="form-input" v-model="crop.pos.y">
+          <span>Top (px)</span>
+          <input
+            type="text"
+            class="form-input"
+            :value="crop.pos.y"
+            @input="handleChange('pos', 'y', $event)"
+          >
         </div>
       </div>
     </div>
