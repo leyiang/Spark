@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spark - Find your inspiration here.</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/specific.css">
+</head>
+<body style="background-color: #EDEDED;">
+<div class="content-area">
+
+    <div class="outer full-width" style="background-color: #FFF;">
+        <div class="content-area">
+            <header class="site-header flex align-center">
+                <button class="button icon-button">
+                    <img src="./assets/icons/home.svg" alt="">
+                </button>
+
+                <input type="text" class="search input flex-1">
+
+                <button class="button icon-button">
+                    <img src="./assets/icons/add.svg" alt="">
+                </button>
+            </header>
+        </div>
+    </div>
+
+    <div class="outer full-width">
+        <main class="main-content">
+
+            <div class="edit-area">
+                <div class="image-container">
+                    <!-- crop mask -->
+                    <svg class="crop-mask">
+                        <defs>
+                            <mask id="mask" style="-webkit-mask-size: cover">
+                                <rect x="0" y="0" width="100%" height="100%" rx="0" ry="0" fill="#fff"></rect>
+                                <rect x="40px" y="50px" width="200px" height="300px" id="hole"></rect>
+                            </mask>
+                        </defs>
+
+                        <rect x="0" y="0"
+                              width="100%" height="100%"
+                              fill="rgba(0, 0, 0, 0.7)"
+                              mask="url(#mask)"
+                        ></rect>
+
+                        <use href="#hole" fill="rgba(0,0,0,0)" stroke="#FFF" stroke-width="2px" cursor="move"></use>
+
+                        <g transform="translate(35, 45)" style="cursor: nwse-resize;">
+                            <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>
+                            <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>
+                        </g>
+
+                        <g transform="translate(245, 45) rotate(90)" style="cursor: nesw-resize;">
+                            <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>
+                            <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>
+                        </g>
+
+                        <g transform="translate(245, 355) rotate(180)" style="cursor: nwse-resize;">
+                            <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>
+                            <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>
+                        </g>
+
+                        <g transform="translate(35, 355) rotate(270)" style="cursor: nesw-resize;">
+                            <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>
+                            <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>
+                        </g>
+                    </svg>
+
+                    <img draggable="false" class="fit" src="https://images.pexels.com/photos/8828132/pexels-photo-8828132.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" alt="">
+                </div>
+
+            </div>
+
+            <aside class="setting-area">
+
+                <div class="setting-group crop-group">
+                    <h2 class="group-title">CROP OPTIONS</h2>
+
+                    <div class="setting-item">
+                        <div class="between">
+                            <span>Width (px)</span>
+                            <input type="text" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="between">
+                            <span>Height (px)</span>
+                            <input type="text" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="between">
+                            <span>Left (px)</span>
+                            <input type="text" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="between">
+                            <span>Right (px)</span>
+                            <input type="text" class="form-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h2 class="group-title">TAGS</h2>
+
+                    <div class="setting-item">
+                        <div class="tag-list">
+                            <div class="tag-item">
+                                <span>header</span>
+                                <button class="button"><img src="./assets/icons/cross.svg" alt=""></button>
+                            </div>
+                        </div>
+
+                        <input type="text" class="form-input"
+                               style="display: block; width: 100%"
+                               placeholder="Enter tag name here"
+                        >
+                    </div>
+                </div>
+
+                <div class="full" style="margin-top: 5rem">
+                    <div style="margin: 1rem">
+                        <button class="button button-lg button-primary">Save</button>
+                    </div>
+                </div>
+
+            </aside>
+        </main>
+    </div>
+</div>
+</body>
+</html>

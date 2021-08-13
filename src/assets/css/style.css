@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    font-family: "Century Gothic", serif;
+}
+
+img {
+    vertical-align: top;
+    max-width: 100%;
+    user-select: none;
+}
+
+img.fit {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+/**
+Layout
+ */
+.flex {
+    display: flex;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.full-width {
+    margin: 0 calc(-50vw + 50%);
+}
+
+.between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/**
+Content Area
+ */
+.content-area {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/**
+BUTTON
+ */
+.button {
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.button-primary {
+    background-color: #000;
+    color: #FFFFFF;
+    border-radius: 10rem;
+    font-size: 18px;
+    padding: .75rem;
+    display: block;
+    width: 100%;
+}
+
+.full {
+    width: 100%;
+}
+
+.icon-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+       .icon-button:hover,
+.white .icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon-button img {
+    width: 90%;
+    height: 90%;
+}
+
+.white .icon-button {
+    background-color: rgba(0, 0, 0, 0.05)
+}
+
+/**
+Input
+ */
+input {
+    outline: none
+}
+.input {
+    border: none;
+    background-color: #ECECEC;
+
+    height: 50px;
+    box-sizing: border-box;
+    font-size: 18px;
+
+    /* Capsule */
+    border-radius: 10rem;
+    outline: none;
+
+    padding: 1rem;
+}
+
+.form-input {
+    border: 1px solid #C4C4C4;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, .25);
+    border-radius: 5px;
+
+    padding: .5rem;
+    box-sizing: border-box;
+}
+
+.none {
+    display: none;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.secondary {
+    color: #A2A2A2;
+}
