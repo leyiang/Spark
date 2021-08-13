@@ -2,6 +2,7 @@
   import { mapState, mapMutations } from "vuex";
   import handleDrag from "@/libs/Drag";
   import Vec from "@/libs/Vec";
+  import {inRange} from "@/utils/helpers";
 
   const cursorMap = {
     t: "n", l: "w", r: "e", b: "s"
@@ -30,9 +31,14 @@
         const origin = this.crop.pos.copy();
 
         handleDrag( e, ( delta ) => {
+          let bound = new Vec(
+              this.image.renderSize.x - this.crop.size.x,
+              this.image.renderSize.y - this.crop.size.y,
+          );
+
           this.crop.pos.set(
-              origin.x + delta.x,
-              origin.y + delta.y,
+              inRange( origin.x + delta.x, 0, bound.x ),
+              inRange( origin.y + delta.y, 0, bound.y ),
           );
         });
       },
