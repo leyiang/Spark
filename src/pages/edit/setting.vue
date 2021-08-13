@@ -3,8 +3,14 @@
   import { mapState, mapMutations } from "vuex";
 
   export default {
+    data() {
+      return {
+        tag: '',
+      }
+    },
+
     methods: {
-      ...mapMutations(["setPosition", "setSize"]),
+      ...mapMutations(["setPosition", "setSize", "removeTag", "addTag"]),
 
       handleChange( type, axis, event ) {
         let value = Number(event.target.value);
@@ -17,11 +23,17 @@
         type === "pos"
           ? this.setPosition( result )
           : this.setSize( result );
+      },
+
+      handleAddTag() {
+        if( this.tag.length === 0 ) return;
+        this.addTag( this.tag );
+        this.tag = "";
       }
     },
 
     computed: {
-      ...mapState(["crop"]),
+      ...mapState(["crop", "tags"]),
     }
   }
 </script>
@@ -86,15 +98,28 @@
 
       <div class="setting-item">
         <div class="tag-list">
-          <div class="tag-item">
-            <span>header</span>
-            <button class="button"><img :src="require('@/assets/icons/cross.svg')" alt=""></button>
+          <div
+            class="tag-item"
+            v-for="tag in tags"
+          >
+            <span>{{ tag }}</span>
+            <button
+              class="button"
+              @click="removeTag(tag)"
+            >
+              <img :src="require('@/assets/icons/cross.svg')" alt="">
+            </button>
           </div>
         </div>
 
-        <input type="text" class="form-input"
-               style="display: block; width: 100%"
-               placeholder="Enter tag name here"
+        <input
+          type="text"
+          class="form-input"
+          style="display: block; width: 100%"
+          placeholder="Add asset tag"
+
+          v-model.trim="tag"
+          @keydown.enter="handleAddTag"
         >
       </div>
     </div>
@@ -137,6 +162,8 @@ Tag
 .tag-list {
   display: flex;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: .5rem;
 }
 
 .tag-item {
