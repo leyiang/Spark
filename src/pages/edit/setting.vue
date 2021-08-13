@@ -37,12 +37,13 @@
       },
 
       handleSave() {
-
+        let info = this.image.getCropInfo( this.crop );
+        console.log( info );
       }
     },
 
     computed: {
-      ...mapState(["crop", "tags"]),
+      ...mapState(["crop", "tags", "image"]),
     }
   }
 </script>
