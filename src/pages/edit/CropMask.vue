@@ -1,5 +1,5 @@
 <script>
-  import Vec from "@/libs/Vec";
+  import { mapState, mapMutations } from "vuex";
   import handleDrag from "@/libs/Drag";
 
   const cursorMap = {
@@ -16,16 +16,12 @@
 
     data() {
       return {
-        crop: {
-          pos: new Vec(40, 40),
-          size: new Vec(100, 100),
-        },
-
         knobs: [ "tl", "tr", "br", "bl" ]
       }
     },
 
     methods: {
+      ...mapMutations(["setPosition", "setSize"]),
       handleMove( e ) {
         const origin = this.crop.pos.copy();
 
@@ -69,6 +65,8 @@
     },
 
     computed: {
+      ...mapState(["crop"]),
+
       maskStyle() {
         return {
           width: this.image.width,

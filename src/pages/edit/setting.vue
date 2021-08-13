@@ -1,6 +1,14 @@
 <script>
+  import Vec from "@/libs/Vec";
+  import { mapState, mapMutations } from "vuex";
+
   export default {
-    created() {
+    methods: {
+      ...mapMutations(["setPosition", "setSize"])
+    },
+
+    computed: {
+      ...mapState(["crop"]),
     }
   }
 </script>
@@ -14,28 +22,28 @@
       <div class="setting-item">
         <div class="between">
           <span>Width (px)</span>
-          <input type="text" class="form-input">
+          <input type="text" class="form-input" :value="crop.size.x">
         </div>
       </div>
 
       <div class="setting-item">
         <div class="between">
           <span>Height (px)</span>
-          <input type="text" class="form-input">
+          <input type="text" class="form-input" :value="crop.size.y">
         </div>
       </div>
 
       <div class="setting-item">
         <div class="between">
           <span>Left (px)</span>
-          <input type="text" class="form-input">
+          <input type="text" class="form-input" v-model="crop.pos.x">
         </div>
       </div>
 
       <div class="setting-item">
         <div class="between">
           <span>Right (px)</span>
-          <input type="text" class="form-input">
+          <input type="text" class="form-input" v-model="crop.pos.y">
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@
     },
 
     created() {
-      // this.global.editingURI = "https://img1.baidu.com/it/u=1534343997,3964472585&fm=26&fmt=auto&gp=0.jpg";
+      this.global.editingURI = "https://img1.baidu.com/it/u=1534343997,3964472585&fm=26&fmt=auto&gp=0.jpg";
       // this.global.editingURI = "https://img2.baidu.com/it/u=2530024688,2423182450&fm=26&fmt=auto&gp=0.jpg";
     },
 
@@ -55,7 +55,11 @@
 
     <div class="image-container" v-show="image">
       <!-- crop mask -->
-      <CropMask v-if="imageReady" :image="image" />
+      <CropMask
+        v-if="imageReady"
+        :image="image"
+        :crop="crop"
+      />
 
       <div
         ref="imageHere"

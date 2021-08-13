@@ -1,6 +1,7 @@
 <script>
   import EditArea from "./edit";
   import SettingPanel from "./setting";
+  import Vec from "@/libs/Vec";
 
   export default {
     components: {
@@ -15,6 +16,7 @@
     <main class="main-content">
 
       <EditArea />
+
       <SettingPanel />
 
     </main>
