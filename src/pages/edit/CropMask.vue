@@ -20,8 +20,6 @@
         type: "renderSize",
         value: new Vec( this.image.instance.width, this.image.instance.height )
       });
-
-      console.log( this.image );
     },
 
     methods: {
@@ -47,9 +45,14 @@
         const origin = this.crop.size.copy();
 
         handleDrag( e, (delta) => {
+          let bound = new Vec(
+            this.image.renderSize.x - this.crop.pos.x,
+            this.image.renderSize.y - this.crop.pos.y,
+          );
+
           this.crop.size.set(
-              origin.x + delta.x,
-              origin.y + delta.y,
+              inRange( origin.x + delta.x, 0, bound.x ),
+              inRange( origin.y + delta.y, 0, bound.y ),
           );
         });
       },
