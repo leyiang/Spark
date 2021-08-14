@@ -25,20 +25,26 @@
         });
       },
 
-      handleAddTag() {
-        if( this.tag.length === 0 ) return;
+      manageTag( type, tag = "" ) {
+        if( type === "add" ) {
+          tag = this.tag
+          this.tag = "";
+        }
 
-        this.updateTag({
-          type: "add",
-          value: this.tag
-        });
-
-        this.tag = "";
+        if( tag.length === 0 ) return;
+        this.updateTag({ type, value: tag });
       },
 
       handleSave() {
-        let info = this.image.getCropInfo( this.crop );
-        console.log( info );
+        this.image.getCropInfo( this.crop );
+
+        this.$api.post("/image", {
+          image: this.image.id,
+          crop: this.image.cropInfo,
+          tags: this.tags
+        }).then( ({data}) => {
+          this.$router.push("/");
+        });
       }
     },
 
@@ -115,7 +121,7 @@
             <span>{{ tag }}</span>
             <button
               class="button"
-              @click="removeTag(tag)"
+              @click="manageTag( 'delete', tag )"
             >
               <img :src="require('@/assets/icons/cross.svg')" alt="">
             </button>
@@ -129,7 +135,7 @@
           placeholder="Add asset tag"
 
           v-model.trim="tag"
-          @keydown.enter="handleAddTag"
+          @keydown.enter="manageTag('add')"
         >
       </div>
     </div>
