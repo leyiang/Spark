@@ -22,7 +22,7 @@
     },
 
     created() {
-      this.global.editingURI = "https://img1.baidu.com/it/u=1534343997,3964472585&fm=26&fmt=auto&gp=0.jpg";
+      this.global.editingURI = "http://localhost/spark/backend/storage/tmp/90bc78c7272bc77f39ff0815ea6fa4fc.jpeg";
       // this.global.editingURI = "https://img2.baidu.com/it/u=2530024688,2423182450&fm=26&fmt=auto&gp=0.jpg";
     },
 
@@ -33,7 +33,7 @@
     mounted() {
       this.$loadImage( this.global.editingURI ).then( image => {
 
-        this.updateImage( new Image(image) );
+        this.updateImage( new Image(1, image) );
 
         this.imageHere.appendChild( image );
 

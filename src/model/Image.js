@@ -2,7 +2,8 @@ import Vec from "@/libs/Vec";
 import { map } from "@/utils/helpers";
 
 export default class Image {
-    constructor( image ) {
+    constructor( id, image ) {
+        this.id = id;
         this.el = image;
         this.dimension = image.width > image.height ? "x" : "y";
         this.naturalSize = new Vec( image.naturalWidth, image.naturalHeight );
@@ -19,11 +20,11 @@ export default class Image {
     }
 
     getCropInfo( crop ) {
-        return {
-            left: map(crop.pos.x, 0, this.renderSize.x, 0, this.naturalSize.x ),
-            top: map(crop.pos.y, 0, this.renderSize.y, 0, this.naturalSize.y ),
-            right: map(crop.pos.x + crop.size.x, 0, this.renderSize.x, 0, this.naturalSize.x ),
-            bottom: map(crop.pos.y + crop.size.y, 0, this.renderSize.y, 0, this.naturalSize.y )
+        this.cropInfo = {
+            x: map( crop.pos.x, 0, this.renderSize.x, 0, this.naturalSize.x ),
+            y: map( crop.pos.y, 0, this.renderSize.y, 0, this.naturalSize.y ),
+            width: map( crop.size.x, 0, this.renderSize.x, 0, this.naturalSize.x ),
+            height: map( crop.size.y, 0, this.renderSize.y, 0, this.naturalSize.y )
         };
     }
 }

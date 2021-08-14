@@ -1,10 +1,10 @@
 <template>
   <section class="card-list">
     <div class="card"
-         v-for="photo in photos"
+         v-for="image in images"
     >
-      <img draggable="false" class="fit" :src="photo" alt=""
-           @click="show( photo )"
+      <img draggable="false" class="fit" :src="temp( image.file )" alt=""
+           @click="show( temp( image.file ) )"
       >
     </div>
   </section>
@@ -19,33 +19,31 @@ export default {
   data() {
     return {
       activePhoto: null,
-      photos: [
-        "https://images.pexels.com/photos/8828132/pexels-photo-8828132.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/4254970/pexels-photo-4254970.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/8665572/pexels-photo-8665572.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/7681340/pexels-photo-7681340.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-        "https://images.pexels.com/photos/5820926/pexels-photo-5820926.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/5965930/pexels-photo-5965930.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/3807547/pexels-photo-3807547.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/5820926/pexels-photo-5820926.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/5965930/pexels-photo-5965930.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/3807547/pexels-photo-3807547.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/3807547/pexels-photo-3807547.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/5820926/pexels-photo-5820926.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/5965930/pexels-photo-5965930.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        "https://images.pexels.com/photos/3807547/pexels-photo-3807547.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-      ]
+      images: [ ]
     }
   },
+
+  created() {
+    this.fetchData();
+  },
+
   methods: {
+    temp( name ) {
+      return "http://localhost/spark/backend/public/tmp/" + name;
+    },
+
+    fetchData() {
+      this.$api.get("/image").then( ({data}) => {
+        this.images = data.data.images;
+      })
+    },
+
     show( photo ) {
-      console.log( photo );
       this.activePhoto = photo;
     },
 
     deactivate() {
       this.activePhoto = null;
-      console.log( this.activePhoto );
     }
   }
 }
