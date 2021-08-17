@@ -6,11 +6,6 @@
   import Image from "@/model/Image";
 
   export default {
-    setup() {
-      const imageHere = ref(null);
-      return { imageHere };
-    },
-
     components: {
       CropMask,
     },
@@ -22,7 +17,13 @@
     },
 
     computed: {
-      ...mapState(["image"]),
+      ...mapState('edit', ["image"]),
+    },
+
+    created() {
+      if( ! this.image ) {
+        return this.$router.push('/upload');
+      }
     },
 
     mounted() {
@@ -44,7 +45,7 @@
 
       <div
         ref="imageHere"
-        :class="['image-here', 'dimension-' + image?.dimension ]"
+        :class="['image-here', 'dimension-' + (image ? image.dimension : '') ]"
       />
     </div>
   </div>

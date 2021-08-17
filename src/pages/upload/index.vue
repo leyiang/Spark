@@ -1,7 +1,7 @@
 <script>
-  import {dragFile} from "@/utils/helpers";
   import Image from "@/model/Image";
-  import {mapMutations} from "vuex";
+  import { dragFile } from "@/utils/helpers";
+  import { mapMutations } from "vuex";
 
   export default {
     data() {
@@ -12,20 +12,26 @@
 
     mounted() {
       this.handleDrag();
+      this.listen();
     },
 
     methods: {
-      ...mapMutations(["updateImage"]),
+      ...mapMutations('edit', ["updateImage"]),
+
+      listen() {
+        this.$refs.fileInput.addEventListener("input", (e) => {
+          this.uploadImage( e.target.files[0] );
+        });
+      },
 
       uploadImage( image ) {
+
         const data = new FormData();
         data.append("file", image );
 
         const src = URL.createObjectURL( image );
 
         this.$api.post("/image/upload", data ).then( ({data}) => {
-          this.global.editingURI = data.data.path;
-
           this.$loadImage( src ).then( image => {
             this.updateImage( new Image(data.data.id, image) );
             this.$router.push("/edit");

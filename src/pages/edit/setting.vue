@@ -10,7 +10,7 @@
     },
 
     methods: {
-      ...mapMutations(["updateCrop", "updateTag"]),
+      ...mapMutations('edit', ["updateCrop", "updateTag"]),
 
       handleChange( type, axis, event ) {
         let value = Number(event.target.value);
@@ -49,7 +49,7 @@
     },
 
     computed: {
-      ...mapState(["crop", "tags", "image"]),
+      ...mapState('edit', ["crop", "tags", "image"]),
     }
   }
 </script>
