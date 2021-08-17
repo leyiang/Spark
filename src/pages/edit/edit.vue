@@ -17,13 +17,8 @@
 
     data() {
       return {
-        imageReady: false,
+        ready: false,
       }
-    },
-
-    created() {
-      // this.global.editingURI = "http://localhost/spark/backend/storage/tmp/90bc78c7272bc77f39ff0815ea6fa4fc.jpeg";
-      // this.global.editingURI = "https://img2.baidu.com/it/u=2530024688,2423182450&fm=26&fmt=auto&gp=0.jpg";
     },
 
     computed: {
@@ -31,23 +26,12 @@
     },
 
     mounted() {
-      this.$loadImage( this.global.editingURI ).then( image => {
-
-        this.updateImage( new Image(1, image) );
-
-        this.imageHere.appendChild( image );
-
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.imageReady = true;
-          }, 500 );
-        });
+      this.$nextTick(() => {
+        this.ready = true;
       });
-    },
 
-    methods: {
-      ...mapMutations(["updateImage"]),
-    }
+      this.$refs.imageHere.appendChild( this.image.el );
+    },
   }
 </script>
 
@@ -56,9 +40,7 @@
 
     <div class="image-container" v-show="image">
       <!-- crop mask -->
-      <CropMask
-        v-if="imageReady"
-      />
+      <CropMask v-if="ready" />
 
       <div
         ref="imageHere"
