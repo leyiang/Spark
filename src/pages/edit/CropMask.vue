@@ -21,7 +21,7 @@
     },
 
     methods: {
-      ...mapMutations(["updateCrop", "updateImage"]),
+      ...mapMutations('edit', ["updateCrop", "updateImage"]),
 
       handleMove( e ) {
         const origin = this.crop.pos.copy();
@@ -76,7 +76,7 @@
     },
 
     computed: {
-      ...mapState(["crop", "image"]),
+      ...mapState('edit', ["crop", "image"]),
 
       maskStyle() {
         return {

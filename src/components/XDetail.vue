@@ -1,39 +1,76 @@
-<template>
-  <div class="detail-mask" v-show="photo"
-       @click="$emit('close')"
-  ></div>
-
-  <div class="detail-stage white" v-show="photo">
-    <div class="detail-image">
-      <img draggable="false" class="fit" :src="photo" alt="">
-    </div>
-
-    <div class="detail-control">
-      <button class="button icon-button">
-        <img src="../assets/icons/trash.svg" alt="">
-      </button>
-
-      <button class="button icon-button" style="margin-top: auto;">
-        <img src="../assets/icons/crop.svg" alt="" style="width: 70%">
-      </button>
-
-      <button class="button icon-button">
-        <img src="../assets/icons/rightarrow.svg" alt="">
-      </button>
-    </div>
-  </div>
-</template>
-
 <script>
+import IconButton from "@/components/IconButton";
+import { mapState, mapMutations } from "vuex";
+
 export default {
-  props: {
-    photo: {
-      type: String,
-      default: null,
+  components: {
+    IconButton
+  },
+
+  computed: {
+    ...mapState('page', ['image']),
+  },
+
+  methods: {
+    ...mapMutations('page', ["updateImage"]),
+
+    removeImage() {
+      this.$api.delete("/image/" + this.image.active.id ).then( ({data}) => {
+        const { list, active } = this.image;
+        list.splice( list.indexOf( active ) , 1 );
+        this.closeDetail();
+      });
+    },
+
+    closeDetail() {
+      this.updateImage({
+        type: "active",
+        value: null
+      });
     }
   },
 }
 </script>
+
+<template>
+  <div
+    class="detail-mask"
+    v-if="image.active"
+    @click="closeDetail"
+  ></div>
+
+  <div
+    class="detail-stage white"
+    v-if="image.active"
+  >
+    <div
+      class="detail-image"
+    >
+      <img
+        draggable="false"
+        class="fit"
+        :src="image.active.path"
+        alt=""
+      >
+    </div>
+
+    <div class="detail-control">
+      <IconButton
+          icon="trash"
+          @click.stop="removeImage"
+      />
+
+      <IconButton
+          icon="crop"
+          style="margin-top: auto"
+      />
+
+      <IconButton
+          icon="rightarrow"
+      />
+    </div>
+  </div>
+</template>
 
 <style>
 /**
@@ -49,7 +86,6 @@ Detail
   bottom: 0;
 
   background-color: rgba(255, 255, 255, .93);
-  /*background-color: rgba(0, 0, 0, 0.7);*/
 }
 
 .detail-stage {

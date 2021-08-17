@@ -1,53 +1,55 @@
+<script>
+  import { mapState, mapMutations } from "vuex";
+
+  export default {
+    created() {
+      this.fetchData();
+    },
+
+    computed: {
+      ...mapState( "page", ["image"]),
+    },
+
+    methods: {
+      ...mapMutations( "page", ["updateImage"]),
+
+      fetchData() {
+        this.$api.get("/image").then( ({data}) => {
+          this.updateImage({
+            type: "list",
+            value: data.data.images
+          });
+        })
+      },
+
+      show( photo ) {
+        this.updateImage({
+          type: "active",
+          value: photo
+        });
+      },
+    }
+  }
+</script>
+
 <template>
   <section class="card-list">
-    <div class="card"
-         v-for="image in images"
+    <div
+      class="card"
+      v-for="photo in image.list"
     >
-      <img draggable="false" class="fit" :src="temp( image.file )" alt=""
-           @click="show( temp( image.file ) )"
+      <img
+        class="fit"
+        draggable="false"
+        alt=""
+        :src="photo.path"
+        @click="show(photo)"
       >
     </div>
   </section>
 
-  <x-detail :photo="activePhoto"
-            @close="deactivate"
-  ></x-detail>
+  <x-detail />
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      activePhoto: null,
-      images: [ ]
-    }
-  },
-
-  created() {
-    this.fetchData();
-  },
-
-  methods: {
-    temp( name ) {
-      return "http://localhost/spark/backend/public/tmp/" + name;
-    },
-
-    fetchData() {
-      this.$api.get("/image").then( ({data}) => {
-        this.images = data.data.images;
-      })
-    },
-
-    show( photo ) {
-      this.activePhoto = photo;
-    },
-
-    deactivate() {
-      this.activePhoto = null;
-    }
-  }
-}
-</script>
 
 <style>
 /**
