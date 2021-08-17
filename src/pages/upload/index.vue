@@ -1,3 +1,51 @@
+<script>
+  import {dragFile} from "@/utils/helpers";
+  import Image from "@/model/Image";
+  import {mapMutations} from "vuex";
+
+  export default {
+    data() {
+      return {
+        images: [],
+      }
+    },
+
+    mounted() {
+      this.handleDrag();
+    },
+
+    methods: {
+      ...mapMutations(["updateImage"]),
+
+      uploadImage( image ) {
+        const data = new FormData();
+        data.append("file", image );
+
+        const src = URL.createObjectURL( image );
+
+        this.$api.post("/image/upload", data ).then( ({data}) => {
+          this.global.editingURI = data.data.path;
+
+          this.$loadImage( src ).then( image => {
+            this.updateImage( new Image(data.data.id, image) );
+            this.$router.push("/edit");
+          });
+        });
+      },
+
+      handleDrag() {
+        dragFile( this.$refs.uploader, event => {
+          this.uploadImage( event.dataTransfer.files[0] );
+        });
+      },
+
+      transferClick() {
+        this.$refs.fileInput.click();
+      },
+    }
+  }
+</script>
+
 <template>
   <section class="image-selector">
     <input type="file" name="file_uploader" class="none" ref="fileInput">
@@ -10,73 +58,8 @@
       <span class="bold">Drag and drop or click to upload</span>
       <span class="secondary">jpg / jpeg / png</span>
     </div>
-
-    <form @submit.prevent="fetchImage">
-      <div class="image-fetcher">
-        <input type="text" class="input"
-               placeholder="Enter image uri"
-               v-model="image_uri"
-               required
-        >
-
-        <button class="button">
-          <img :src="require('@/assets/icons/rightarrow.svg')" alt="">
-        </button>
-      </div>
-    </form>
-
   </section>
 </template>
-
-<script>
-  export default {
-    data() {
-      return {
-        image_uri: "https://img1.baidu.com/it/u=1534343997,3964472585&fm=26&fmt=auto&gp=0.jpg",
-      }
-    },
-
-    mounted() {
-      this.handleDrag();
-    },
-
-    methods: {
-      handleDrag() {
-        const uploader = this.$refs.uploader;
-        ["drag", "dragstart", "dragend", "dragover", "dragenter", "dragleave", "drop"].forEach( eventName => {
-          uploader.addEventListener( eventName, event => {
-            event.preventDefault();
-
-            if( ['dragover', 'dragenter'].includes( eventName ) ) {
-              uploader.classList.add('is-dragover');
-            }
-
-            if( ['dragleave', 'dragend', 'drop'].includes( eventName ) ) {
-              uploader.classList.remove('is-dragover');
-            }
-
-            if( ['drop'].includes( eventName ) ) {
-              console.log( event.dataTransfer.files );
-            }
-          });
-        });
-      },
-
-      transferClick() {
-        this.$refs.fileInput.click();
-      },
-
-      fetchImage() {
-        this.$api.post("/image/fetch", {
-          path: this.image_uri
-        }).then( ({data}) => {
-          this.global.editingURI = data.data.path;
-          this.$router.push("/edit");
-        });
-      }
-    }
-  }
-</script>
 
 <style>
 /**

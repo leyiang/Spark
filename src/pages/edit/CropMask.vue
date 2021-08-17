@@ -17,6 +17,7 @@
 
     created() {
       this.image.getRenderSize();
+      console.log( this.image );
     },
 
     methods: {
