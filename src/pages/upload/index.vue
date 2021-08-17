@@ -10,21 +10,6 @@
       <span class="bold">Drag and drop or click to upload</span>
       <span class="secondary">jpg / jpeg / png</span>
     </div>
-
-    <form @submit.prevent="fetchImage">
-      <div class="image-fetcher">
-        <input type="text" class="input"
-               placeholder="Enter image uri"
-               v-model="image_uri"
-               required
-        >
-
-        <button class="button">
-          <img :src="require('@/assets/icons/rightarrow.svg')" alt="">
-        </button>
-      </div>
-    </form>
-
   </section>
 </template>
 
@@ -32,7 +17,6 @@
   export default {
     data() {
       return {
-        image_uri: "https://img1.baidu.com/it/u=1534343997,3964472585&fm=26&fmt=auto&gp=0.jpg",
       }
     },
 
@@ -65,15 +49,6 @@
       transferClick() {
         this.$refs.fileInput.click();
       },
-
-      fetchImage() {
-        this.$api.post("/image/fetch", {
-          path: this.image_uri
-        }).then( ({data}) => {
-          this.global.editingURI = data.data.path;
-          this.$router.push("/edit");
-        });
-      }
     }
   }
 </script>

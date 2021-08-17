@@ -61,6 +61,7 @@ Detail
   transform: translate(-50%, -50%);
 
   display: flex;
+  justify-content: center;
 }
 
 .detail-control {
@@ -75,6 +76,6 @@ Detail
   overflow: hidden;
   user-select: none;
 
-  width: 400px;
+  width: 80vw;
 }
 </style>
