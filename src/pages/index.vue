@@ -7,7 +7,18 @@
     },
 
     computed: {
-      ...mapState( "page", ["image"]),
+      ...mapState( "page", ["search", "image"]),
+
+      filteredImage() {
+        const search = this.search.content;
+        const regexp = new RegExp(search);
+
+        if( ! search.length ) return this.image.list;
+
+        return this.image.list.filter( image => {
+          return image.tags.some( tag => regexp.test( tag.content ) );
+        });
+      },
     },
 
     methods: {
@@ -33,10 +44,19 @@
 </script>
 
 <template>
+
+  <h2
+    class="search-result"
+    v-if="search.content"
+  >
+    <span>Search result for </span>
+    <strong>{{ search.content }}:</strong>
+  </h2>
+
   <section class="card-list">
     <div
       class="card"
-      v-for="photo in image.list"
+      v-for="photo in filteredImage"
     >
       <img
         class="fit"
@@ -76,5 +96,12 @@ Card
 
 .card:hover {
   filter: brightness(.7);
+}
+
+.search-result {
+  color: #989898;
+}
+.search-result strong {
+  color: #222;
 }
 </style>

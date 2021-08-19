@@ -20,3 +20,9 @@
     >
   </button>
 </template>
+
+<style>
+  .icon-button {
+    padding: .5rem;
+  }
+</style>

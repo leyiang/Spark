@@ -3,6 +3,11 @@ export default {
 
     state() {
         return {
+            search: {
+                content: "123123a",
+                suggestion: false,
+            },
+
             image: {
                 list: [],
                 active: null,
@@ -13,6 +18,10 @@ export default {
     mutations: {
         updateImage( state, { type, value } ) {
             state.image[ type ] = value;
+        },
+
+        updateSearch( state, { type, value } ) {
+            state.search[ type ] = value;
         }
     }
 }

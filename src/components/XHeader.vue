@@ -1,15 +1,76 @@
+<script>
+  import { mapState, mapMutations } from "vuex";
+  import IconButton from "@/components/IconButton";
+
+  export default {
+    components: {
+      IconButton
+    },
+
+    computed: {
+      ...mapState('page', ["search"]),
+
+      content: {
+        get() {
+          return this.search.content;
+        },
+
+        set(value) {
+          this.updateSearch({
+            type: "content",
+            value: value,
+          })
+        }
+      }
+    },
+
+    methods: {
+      ...mapMutations('page', ['updateSearch']),
+
+      handleInputFocus() {
+        // this.updateSearch({
+        //   type: "suggestion",
+        //   value: true
+        // });
+      },
+
+      handleInputBlur() {
+        // this.updateSearch({
+        //   type: "suggestion",
+        //   value: false
+        // });
+      }
+    }
+  }
+</script>
+
 <template>
-  <header class="site-header flex align-center">
-    <button class="button icon-button" @click="$router.push('/')">
-      <img src="../assets/icons/home.svg" alt="">
-    </button>
+  <header
+    class="site-header flex align-center"
+  >
+    <IconButton
+      icon="home"
+      @click="$router.push('/')"
+    />
 
-    <div class="search-container flex-1">
-      <input type="text" class="search input">
+    <div
+      class="search-container flex-1"
+    >
+      <input
+        type="text"
+        class="search input"
+        @focus="handleInputFocus"
+        v-model="content"
+      >
 
-      <div :class="['search-mask', suggestion ? '' : 'hide' ]"></div>
-      <div :class="['search-suggestion', suggestion ? '' : 'hide' ]">
+      <div
+        :class="['search-mask', search.suggestion ? '' : 'hide' ]"
+        @mousedown="handleInputBlur"
+      />
 
+      <div
+        :class="['search-suggestion', search.suggestion ? '' : 'hide' ]"
+      >
         <div class="suggestion-group">
           <h4 class="suggestion-title">Recent Searches</h4>
           <div class="search-list">
@@ -17,25 +78,16 @@
             <button class="search-item button">footer</button>
           </div>
         </div>
-
       </div>
     </div>
 
-    <button class="button icon-button" @click="$router.push('/upload')">
-      <img src="../assets/icons/add.svg" alt="">
-    </button>
+    <IconButton
+      icon="add"
+      @click="$router.push('/upload')"
+    />
+
   </header>
 </template>
-
-<script>
-  export default {
-    data() {
-      return {
-        suggestion: false,
-      }
-    }
-  }
-</script>
 
 <style>
 /* .site-header : height 80px */
@@ -46,6 +98,7 @@
   top: 0;
 
   z-index: 4;
+  margin-bottom: 1rem;
 }
 
 .search-container {
