@@ -61,7 +61,7 @@ export default {
       />
 
       <IconButton
-          icon="crop"
+          icon="edit"
           style="margin-top: auto"
       />
 
