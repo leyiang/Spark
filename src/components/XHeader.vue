@@ -98,7 +98,6 @@
   top: 0;
 
   z-index: 4;
-  margin-bottom: 1rem;
 }
 
 .search-container {

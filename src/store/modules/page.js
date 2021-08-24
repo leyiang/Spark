@@ -4,7 +4,7 @@ export default {
     state() {
         return {
             search: {
-                content: "123123a",
+                content: "",
                 suggestion: false,
             },
 

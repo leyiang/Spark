@@ -54,7 +54,9 @@ export default {
       >
     </div>
 
-    <div class="detail-control">
+    <div class="detail-control"
+         @click="closeDetail"
+    >
       <IconButton
           icon="trash"
           @click.stop="removeImage"
@@ -63,10 +65,12 @@ export default {
       <IconButton
           icon="edit"
           style="margin-top: auto"
+          @click.stop="() => {}"
       />
 
       <IconButton
           icon="rightarrow"
+          @click.stop="() => {}"
       />
     </div>
   </div>
@@ -113,5 +117,6 @@ Detail
   user-select: none;
 
   width: 80vw;
+  box-shadow: 0 0 0 4px rgba(186, 186, 186, 0.5);
 }
 </style>

@@ -17,7 +17,7 @@
 
     created() {
       this.image.getRenderSize();
-      console.log( this.image );
+      this.crop.size = this.image.renderSize.copy()
     },
 
     methods: {

@@ -59,7 +59,6 @@
       v-for="photo in filteredImage"
     >
       <img
-        class="fit"
         draggable="false"
         alt=""
         :src="photo.path"
@@ -76,22 +75,29 @@
 Card
  */
 .card-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  /*display: flex;*/
+  /*flex-wrap: wrap;*/
+  /*gap: 1rem;*/
+  margin-top: 1rem;
+  column-count: 4;
 }
 
 .card {
   background-color: #EEE;
 
-  height: 400px;
-  width: calc( calc(100% - 3rem) / 4);
-
+  /*height: 400px;*/
+  margin-bottom: 1rem;
+  width: 100%;
   border-radius: 1rem;
   overflow: hidden;
   cursor: pointer;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
 }
 
 .card:hover {
