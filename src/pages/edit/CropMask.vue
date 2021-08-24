@@ -11,13 +11,14 @@
   export default {
     data() {
       return {
+        handleSize: 16,
         knobs: [ "tl", "tr", "br", "bl" ]
       }
     },
 
     created() {
       this.image.getRenderSize();
-      this.crop.size = this.image.renderSize.copy()
+      // this.crop.size = this.image.renderSize.copy()
     },
 
     methods: {
@@ -40,36 +41,63 @@
       },
 
       handleResize( knob, e ) {
-        const origin = this.crop.size.copy();
+        const origin = {
+          pos: this.crop.pos.copy(),
+          size: this.crop.size.copy()
+        };
+
+        let minSize = 20;
 
         handleDrag( e, (delta) => {
-          let bound = new Vec(
-            this.image.renderSize.x - this.crop.pos.x,
-            this.image.renderSize.y - this.crop.pos.y,
-          );
+          if( /l/.test(knob) ) {
+            if( origin.pos.x + delta.x >= 0 && origin.size.x - delta.x > 20 ) {
+              this.crop.size.x = origin.size.x - delta.x;
+              this.crop.pos.x = origin.pos.x + delta.x;
+            }
+          }
 
-          this.crop.size.set(
-              inRange( origin.x + delta.x, 0, bound.x ),
-              inRange( origin.y + delta.y, 0, bound.y ),
-          );
+          if( /r/.test(knob) ) {
+            if( origin.pos.x + origin.size.x + delta.x <= this.image.renderSize.x && origin.size.x + delta.x > 20 ) {
+              this.crop.size.x = origin.size.x + delta.x;
+            }
+          }
+
+          if( /b/.test(knob) ) {
+            if( origin.pos.y + origin.size.y + delta.y <= this.image.renderSize.y && origin.size.y + delta.y > 20 ) {
+              this.crop.size.y = origin.size.y + delta.y;
+            }
+          }
+
+          if( /t/.test(knob) ) {
+            if( origin.pos.y + delta.y >= 0 && origin.size.y - delta.y > 20) {
+              this.crop.size.y = origin.size.y - delta.y;
+              this.crop.pos.y = origin.pos.y + delta.y;
+            }
+          }
+
+          console.log( this.crop );
         });
       },
 
       getKnobTransform( knob ) {
-        let offset = 5;
+        let offset = this.handleSize / 2;
         let {pos, size} = this.crop;
 
         let detail = {
-          r: this.knobs.indexOf( knob ) * 90,
-          x: /l/.test(knob) ? (pos.x - offset) : (pos.x + size.x + offset),
-          y: /t/.test(knob) ? (pos.y - offset) : (pos.y + size.y + offset),
+          x: /l/.test(knob) ? (pos.x - offset) : (pos.x + size.x - offset),
+          y: /t/.test(knob) ? (pos.y - offset) : (pos.y + size.y - offset),
         };
 
-        return `translate(${ detail.x }, ${ detail.y }) rotate(${ detail.r })`;
+        return `translate(${ detail.x }, ${ detail.y })`;
       },
 
       getKnobStyle( knob ) {
         return {
+          width: this.handleSize,
+          height: this.handleSize,
+          rx: 2,
+          fill: "#FFF",
+          stroke: "none",
           cursor: knob.split('').map(m => cursorMap[m]).join('') + "-resize"
         }
       }
@@ -119,31 +147,12 @@
         @mousedown="handleMove"
     ></use>
 
-    <g
+    <rect
       v-for="knob in knobs"
       :transform="getKnobTransform(knob)"
       :style="getKnobStyle(knob)"
-
       @mousedown="handleResize(knob, $event)"
-    >
-      <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>
-      <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>
-    </g>
-
-<!--    <g transform="translate(245, 45) rotate(90)" style="cursor: nesw-resize;">-->
-<!--      <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>-->
-<!--      <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>-->
-<!--    </g>-->
-
-<!--    <g transform="translate(245, 355) rotate(180)" style="cursor: nwse-resize;">-->
-<!--      <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>-->
-<!--      <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>-->
-<!--    </g>-->
-
-<!--    <g transform="translate(35, 355) rotate(270)" style="cursor: nesw-resize;">-->
-<!--      <rect fill="rgba(0,0,0,0)" stroke="none" x="0" y="0" width="20" height="20"></rect>-->
-<!--      <path d="M5,0C2.2,0,0,2.2,0,5v15h6V6h14V0H5z" fill="#fff"></path>-->
-<!--    </g>-->
+    />
   </svg>
 </template>
 
