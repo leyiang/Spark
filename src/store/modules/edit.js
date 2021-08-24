@@ -6,7 +6,7 @@ export default {
     state() {
         return {
             crop: {
-                pos: new Vec(40, 40),
+                pos: new Vec(0, 0),
                 size: new Vec(100, 100),
             },
 

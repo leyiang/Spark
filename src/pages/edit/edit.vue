@@ -1,38 +1,52 @@
 <script>
-  import {ref} from "vue";
-  import CropMask from "./CropMask";
-  import { mapState, mapMutations } from "vuex";
-  import Vec from "@/libs/Vec";
-  import Image from "@/model/Image";
+import { mapState, mapMutations } from "vuex";
+import CropMask from "./CropMask";
+import {loadImage} from "@/libs/helpers";
+import Image from "@/model/Image";
 
-  export default {
+export default {
     components: {
       CropMask,
     },
 
     data() {
       return {
+        id: null,
         ready: false,
       }
     },
 
-    computed: {
-      ...mapState('edit', ["image"]),
-    },
-
     created() {
-      if( ! this.image ) {
-        return this.$router.push('/upload');
+      this.id = this.$route.params.id;
+      this.fetchData();
+    },
+
+    computed: {
+      ...mapState('edit', ['image']),
+    },
+
+    methods: {
+      ...mapMutations('edit', ["updateImage"]),
+
+      fetchData() {
+        this.$api.get("/spark/" + this.id ).then( ({data}) => {
+          const { src } = data.data;
+          loadImage( src ).then( image => {
+            this.imageReady( image );
+          });
+        });
+      },
+
+      imageReady( image ) {
+        this.update
+        this.updateImage( new Image(this.id, image) );
+        this.$refs.imageHere.appendChild( image );
+
+        this.$nextTick(() => {
+          this.ready = true;
+        });
       }
-    },
-
-    mounted() {
-      this.$nextTick(() => {
-        this.ready = true;
-      });
-
-      this.$refs.imageHere.appendChild( this.image.el );
-    },
+    }
   }
 </script>
 

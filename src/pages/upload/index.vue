@@ -1,7 +1,5 @@
 <script>
-  import Image from "@/model/Image";
   import { dragFile } from "@/utils/helpers";
-  import { mapMutations } from "vuex";
 
   export default {
     data() {
@@ -16,8 +14,6 @@
     },
 
     methods: {
-      ...mapMutations('edit', ["updateImage"]),
-
       listen() {
         this.$refs.fileInput.addEventListener("input", (e) => {
           this.uploadImage( e.target.files[0] );
@@ -27,15 +23,10 @@
       uploadImage( image ) {
 
         const data = new FormData();
-        data.append("file", image );
+        data.append("image", image );
 
-        const src = URL.createObjectURL( image );
-
-        this.$api.post("/image/upload", data ).then( ({data}) => {
-          this.$loadImage( src ).then( image => {
-            this.updateImage( new Image(data.data.id, image) );
-            this.$router.push("/edit");
-          });
+        this.$api.post("/spark", data ).then( ({data}) => {
+          this.$router.push("/edit/" + data.data.id );
         });
       },
 
@@ -73,9 +64,9 @@ Upload
  */
 .image-selector {
   background-color: #FFF;
-  width: 80%;
+  width: 100%;
   border-radius: 20px;
-  margin: 6rem auto 0;
+  margin: 3rem auto 0;
 
   padding: 2rem;
   box-sizing: border-box;
@@ -83,7 +74,8 @@ Upload
 
 .image-uploader {
   width: 100%;
-  height: 550px;
+  /*height: 550px;*/
+  height: 700px;
   border: 2px dashed #dadada;
   box-sizing: border-box;
   border-radius: 20px;
