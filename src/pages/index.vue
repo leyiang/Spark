@@ -25,7 +25,7 @@
       ...mapMutations( "page", ["updateImage"]),
 
       fetchData() {
-        this.$api.get("/image").then( ({data}) => {
+        this.$api.get("/spark").then( ({data}) => {
           this.updateImage({
             type: "list",
             value: data.data.images

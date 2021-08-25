@@ -5,14 +5,21 @@
   export default {
     data() {
       return {
+        id: null,
         tag: '',
       }
+    },
+
+    created() {
+        this.id = this.$route.params.id;
     },
 
     methods: {
       ...mapMutations('edit', ["updateCrop", "updateTag"]),
 
       handleChange( type, axis, event ) {
+        if( ! this.id ) return;
+
         let value = Number(event.target.value);
         let target = this.crop[ type ];
 
@@ -36,15 +43,21 @@
       },
 
       handleSave() {
+        if( this.tags.length === 0 ) {
+          return alert("TAGS!");
+        }
+
         this.image.getCropInfo( this.crop );
 
-        this.$api.post("/image", {
+        this.$api.patch("/spark/" + this.id , {
           image: this.image.id,
           crop: this.image.cropInfo,
           tags: this.tags
         }).then( ({data}) => {
           this.$router.push("/");
-        });
+        }).catch( e => {
+          console.log( e );
+        })
       }
     },
 
@@ -115,13 +128,13 @@
       <div class="setting-item">
         <div class="tag-list">
           <div
-            class="tag-item"
-            v-for="tag in tags"
+              class="tag-item"
+              v-for="tag in tags"
           >
             <span>{{ tag }}</span>
             <button
-              class="button"
-              @click="manageTag( 'delete', tag )"
+                class="button"
+                @click="manageTag( 'delete', tag )"
             >
               <img :src="require('@/assets/icons/cross.svg')" alt="">
             </button>
@@ -129,13 +142,26 @@
         </div>
 
         <input
+            type="text"
+            class="form-input"
+            style="display: block; width: 100%"
+            placeholder="Add asset tag"
+
+            v-model.trim="tag"
+            @keydown.enter="manageTag('add')"
+        >
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <h2 class="group-title">URL</h2>
+
+      <div class="setting-item">
+        <input
           type="text"
           class="form-input"
           style="display: block; width: 100%"
-          placeholder="Add asset tag"
-
-          v-model.trim="tag"
-          @keydown.enter="manageTag('add')"
+          placeholder="Add url for this spark"
         >
       </div>
     </div>

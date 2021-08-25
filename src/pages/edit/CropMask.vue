@@ -11,7 +11,7 @@
   export default {
     data() {
       return {
-        handleSize: 16,
+        handleSize: 8,
         knobs: [ "tl", "tr", "br", "bl" ]
       }
     },
