@@ -18,7 +18,7 @@
 
     created() {
       this.image.getRenderSize();
-      // this.crop.size = this.image.renderSize.copy()
+      this.crop.size = this.image.renderSize.copy()
     },
 
     methods: {
@@ -50,32 +50,42 @@
 
         handleDrag( e, (delta) => {
           if( /l/.test(knob) ) {
-            if( origin.pos.x + delta.x >= 0 && origin.size.x - delta.x > 20 ) {
-              this.crop.size.x = origin.size.x - delta.x;
-              this.crop.pos.x = origin.pos.x + delta.x;
-            }
+            let dx = delta.x;
+
+            if( origin.size.x - delta.x <= minSize ) dx = origin.size.x - minSize;
+            if( origin.pos.x + delta.x < 0 ) dx = 0 - origin.pos.x;
+
+            this.crop.size.x = origin.size.x - dx;
+            this.crop.pos.x = origin.pos.x + dx;
           }
 
           if( /r/.test(knob) ) {
-            if( origin.pos.x + origin.size.x + delta.x <= this.image.renderSize.x && origin.size.x + delta.x > 20 ) {
-              this.crop.size.x = origin.size.x + delta.x;
-            }
+            let dx = delta.x;
+
+            if( origin.size.x + delta.x <= minSize ) dx = minSize - origin.size.x;
+            if( origin.pos.x + origin.size.x + delta.x >this.image.renderSize.x ) dx = this.image.renderSize.x - origin.pos.x - origin.size.x;
+
+            this.crop.size.x = origin.size.x + dx;
           }
 
           if( /b/.test(knob) ) {
-            if( origin.pos.y + origin.size.y + delta.y <= this.image.renderSize.y && origin.size.y + delta.y > 20 ) {
-              this.crop.size.y = origin.size.y + delta.y;
-            }
+            let dy = delta.y;
+
+            if( origin.pos.y + origin.size.y + delta.y > this.image.renderSize.y ) dy = this.image.renderSize.y - origin.pos.y - origin.size.y;
+            if( origin.size.y + delta.y <= minSize ) dy = minSize - origin.size.y;
+
+            this.crop.size.y = origin.size.y + dy;
           }
 
           if( /t/.test(knob) ) {
-            if( origin.pos.y + delta.y >= 0 && origin.size.y - delta.y > 20) {
-              this.crop.size.y = origin.size.y - delta.y;
-              this.crop.pos.y = origin.pos.y + delta.y;
-            }
-          }
+            let dy = delta.y;
 
-          console.log( this.crop );
+            if( origin.pos.y + delta.y < 0 ) dy = 0 - origin.pos.y;
+            if( origin.size.y - delta.y <= minSize ) dy = origin.size.y - minSize;
+
+            this.crop.size.y = origin.size.y - dy;
+            this.crop.pos.y = origin.pos.y + dy;
+          }
         });
       },
 
