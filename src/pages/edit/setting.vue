@@ -153,6 +153,9 @@
 </template>
 
 <style>
+.setting-area {
+  user-select: none;
+}
 /**
 Setting Group
  */
