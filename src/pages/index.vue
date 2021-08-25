@@ -7,34 +7,34 @@
     },
 
     computed: {
-      ...mapState( "page", ["search", "image"]),
+      ...mapState( "page", ["search", "spark"]),
 
-      filteredImage() {
+      filteredSpark() {
         const search = this.search.content;
         const regexp = new RegExp(search);
 
-        if( ! search.length ) return this.image.list;
+        if( ! search.length ) return this.spark.list;
 
-        return this.image.list.filter( image => {
-          return image.tags.some( tag => regexp.test( tag.content ) );
+        return this.spark.list.filter( spark => {
+          return spark.tags.some( tag => regexp.test( tag ) );
         });
       },
     },
 
     methods: {
-      ...mapMutations( "page", ["updateImage"]),
+      ...mapMutations( "page", ["updateSpark"]),
 
       fetchData() {
         this.$api.get("/spark").then( ({data}) => {
-          this.updateImage({
+          this.updateSpark({
             type: "list",
-            value: data.data.images
+            value: data.data
           });
         })
       },
 
       show( photo ) {
-        this.updateImage({
+        this.updateSpark({
           type: "active",
           value: photo
         });
@@ -56,18 +56,20 @@
   <section class="card-list">
     <div
       class="card"
-      v-for="photo in filteredImage"
+      v-for="spark in filteredSpark"
     >
       <img
         draggable="false"
         alt=""
-        :src="photo.path"
-        @click="show(photo)"
+        :src="spark.src"
+        @click="show(spark)"
       >
     </div>
   </section>
 
-  <x-detail />
+  <x-detail
+    v-if="spark.active"
+  />
 </template>
 
 <style>

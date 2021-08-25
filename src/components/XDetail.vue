@@ -1,6 +1,7 @@
 <script>
 import IconButton from "@/components/IconButton";
 import { mapState, mapMutations } from "vuex";
+import {loadImage} from "@/libs/helpers";
 
 export default {
   components: {
@@ -8,22 +9,46 @@ export default {
   },
 
   computed: {
-    ...mapState('page', ['image']),
+    ...mapState('page', ['spark']),
+  },
+
+  data() {
+    return {
+      dimension: null,
+    }
+  },
+
+  created() {
+    console.log( this.spark );
+    loadImage( this.spark.active.src ).then( image => {
+      this.dimension = image.width > image.height ? "x" : "y";
+    });
   },
 
   methods: {
-    ...mapMutations('page', ["updateImage"]),
+    ...mapMutations('page', ["updateSpark"]),
 
-    removeImage() {
-      this.$api.delete("/image/" + this.image.active.id ).then( ({data}) => {
-        const { list, active } = this.image;
+    removeSpark() {
+      this.$api.delete("/spark/" + this.spark.active.id ).then( ({data}) => {
+        const { list, active } = this.spark;
         list.splice( list.indexOf( active ) , 1 );
         this.closeDetail();
       });
     },
 
+    editSpark() {
+      return this.$router.push('/edit/' + this.spark.active.id );
+    },
+
+    jumpLink() {
+      const active = this.spark.active;
+      if( active.link ) {
+        window.open( "//" + active.link );
+      }
+    },
+
     closeDetail() {
-      this.updateImage({
+      this.updateSpark({
         type: "active",
         value: null
       });
@@ -35,21 +60,21 @@ export default {
 <template>
   <div
     class="detail-mask"
-    v-if="image.active"
+    v-if="spark.active"
     @click="closeDetail"
   ></div>
 
   <div
     class="detail-stage white"
-    v-if="image.active"
+    v-if="spark.active"
   >
     <div
-      class="detail-image"
+      :class="['detail-image', 'axis-' + dimension]"
     >
       <img
         draggable="false"
-        class="fit"
-        :src="image.active.path"
+        :class="['fit']"
+        :src="spark.active.src"
         alt=""
       >
     </div>
@@ -59,18 +84,18 @@ export default {
     >
       <IconButton
           icon="trash"
-          @click.stop="removeImage"
+          @click.stop="removeSpark"
       />
 
       <IconButton
           icon="edit"
           style="margin-top: auto"
-          @click.stop="() => {}"
+          @click.stop="editSpark"
       />
 
       <IconButton
           icon="rightarrow"
-          @click.stop="() => {}"
+          @click.stop="jumpLink"
       />
     </div>
   </div>
@@ -115,8 +140,14 @@ Detail
   border-radius: 20px;
   overflow: hidden;
   user-select: none;
-
-  width: 80vw;
   box-shadow: 0 0 0 4px rgba(186, 186, 186, 0.5);
+}
+
+.detail-image.axis-x {
+  width: 80vw;
+}
+
+.detail-image.axis-y {
+  height: 90vh;
 }
 </style>
