@@ -6,16 +6,28 @@
     data() {
       return {
         id: null,
-        tag: '',
+        spark: {
+          link: "",
+          tags: [],
+        },
       }
     },
 
     created() {
         this.id = this.$route.params.id;
+        this.fetchData();
     },
 
     methods: {
-      ...mapMutations('edit', ["updateCrop", "updateTag"]),
+      ...mapMutations('edit', ["updateCrop"]),
+
+      fetchData() {
+        this.$api.get("/spark/" + this.id ).then( ({data}) =>{
+          this.spark = data.data;
+
+          console.log( this.spark );
+        });
+      },
 
       handleChange( type, axis, event ) {
         if( ! this.id ) return;
@@ -32,27 +44,21 @@
         });
       },
 
-      manageTag( type, tag = "" ) {
-        if( type === "add" ) {
-          tag = this.tag
-          this.tag = "";
+      handleSave() {
+        if( this.spark.tags.length === 0 ) {
+          return alert("TAGS!");
         }
 
-        if( tag.length === 0 ) return;
-        this.updateTag({ type, value: tag });
-      },
-
-      handleSave() {
-        if( this.tags.length === 0 ) {
-          return alert("TAGS!");
+        if( this.spark.link.length === 0 ) {
+          return alert("LINK!");
         }
 
         this.image.getCropInfo( this.crop );
 
         this.$api.patch("/spark/" + this.id , {
-          image: this.image.id,
+          tags: this.spark.tags,
+          link: this.spark.link,
           crop: this.image.cropInfo,
-          tags: this.tags
         }).then( ({data}) => {
           this.$router.push("/");
         }).catch( e => {
@@ -62,14 +68,13 @@
     },
 
     computed: {
-      ...mapState('edit', ["crop", "tags", "image"]),
+      ...mapState('edit', ["crop", "image"]),
     }
   }
 </script>
 
 <template>
   <aside class="setting-area">
-
     <div class="setting-group crop-group">
       <h2 class="group-title">CROP OPTIONS</h2>
 
@@ -126,30 +131,9 @@
       <h2 class="group-title">TAGS</h2>
 
       <div class="setting-item">
-        <div class="tag-list">
-          <div
-              class="tag-item"
-              v-for="tag in tags"
-          >
-            <span>{{ tag }}</span>
-            <button
-                class="button"
-                @click="manageTag( 'delete', tag )"
-            >
-              <img :src="require('@/assets/icons/cross.svg')" alt="">
-            </button>
-          </div>
-        </div>
-
-        <input
-            type="text"
-            class="form-input"
-            style="display: block; width: 100%"
-            placeholder="Add asset tag"
-
-            v-model.trim="tag"
-            @keydown.enter="manageTag('add')"
-        >
+        <a-tag-selector
+            v-model="spark.tags"
+        />
       </div>
     </div>
 
@@ -162,6 +146,7 @@
           class="form-input"
           style="display: block; width: 100%"
           placeholder="Add url for this spark"
+          v-model="spark.link"
         >
       </div>
     </div>
