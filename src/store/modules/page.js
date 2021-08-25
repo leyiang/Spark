@@ -8,7 +8,7 @@ export default {
                 suggestion: false,
             },
 
-            image: {
+            spark: {
                 list: [],
                 active: null,
             }
@@ -16,8 +16,8 @@ export default {
     },
 
     mutations: {
-        updateImage( state, { type, value } ) {
-            state.image[ type ] = value;
+        updateSpark( state, { type, value } ) {
+            state.spark[ type ] = value;
         },
 
         updateSearch( state, { type, value } ) {
