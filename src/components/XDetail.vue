@@ -8,21 +8,58 @@ export default {
     IconButton
   },
 
-  computed: {
-    ...mapState('page', ['spark']),
-  },
-
   data() {
     return {
+      max: {
+        width: window.innerWidth - 200,
+        height: window.innerHeight - 100,
+      },
+
+      ratio: null,
       dimension: null,
     }
   },
 
   created() {
-    console.log( this.spark );
     loadImage( this.spark.active.src ).then( image => {
+      this.ratio = image.width / image.height;
       this.dimension = image.width > image.height ? "x" : "y";
     });
+  },
+
+  computed: {
+    ...mapState('page', ['spark']),
+
+    detailStyle() {
+      let generator = {
+        x: () => {
+          let width = this.max.width;
+          console.log( width, this.max.width );
+          let height = width / this.ratio;
+          return [width, height];
+        },
+
+        y: () => {
+          let height = this.max.height;
+          let width = this.max.height * this.ratio;
+          return [width, height];
+        },
+      }
+
+      let width = null, height = null;
+      const table = { x: 'y', y: 'x' };
+
+      [ width, height ] = generator[ this.dimension ]();
+      if( width > this.max.width || height > this.max.height ) {
+        [ width, height ] = generator[ table[ this.dimension ] ]();
+        console.log( width, height );
+      }
+
+      return {
+        width: width + "px",
+        height: height + "px",
+      }
+    }
   },
 
   methods: {
@@ -69,7 +106,9 @@ export default {
     v-if="spark.active"
   >
     <div
-      :class="['detail-image', 'axis-' + dimension]"
+      class='detail-image'
+      v-if="ratio"
+      :style="detailStyle"
     >
       <img
         draggable="false"
