@@ -44,32 +44,44 @@
 </script>
 
 <template>
-
-  <h2
-    class="search-result"
-    v-if="search.content"
-  >
-    <span>Search result for </span>
-    <strong>{{ search.content }}:</strong>
-  </h2>
-
-  <section class="card-list">
-    <div
-      class="card"
-      v-for="spark in filteredSpark"
+  <main class="index-content">
+    <h2
+        class="search-result"
+        v-if="search.content"
     >
-      <img
-        draggable="false"
-        alt=""
-        :src="spark.src"
-        @click="show(spark)"
-      >
-    </div>
-  </section>
+      <span>Search result for </span>
+      <strong>{{ search.content }}:</strong>
+    </h2>
 
-  <x-detail
-    v-if="spark.active"
-  />
+    <section
+        class="card-list"
+        v-if="filteredSpark.length"
+    >
+      <div
+          class="card"
+          v-for="spark in filteredSpark"
+      >
+        <img
+            draggable="false"
+            alt=""
+            :src="spark.src"
+            @click="show(spark)"
+        >
+      </div>
+    </section>
+
+    <section
+        class="no-data"
+        v-else
+    >
+      <img :src="require('@/assets/icons/sad.svg')" alt="sad">
+      <h2>Sorry, nothing found.</h2>
+    </section>
+
+    <x-detail
+        v-if="spark.active"
+    />
+  </main>
 </template>
 
 <style>
@@ -77,9 +89,6 @@
 Card
  */
 .card-list {
-  /*display: flex;*/
-  /*flex-wrap: wrap;*/
-  /*gap: 1rem;*/
   margin-top: 1rem;
   column-count: 4;
 }
@@ -87,7 +96,6 @@ Card
 .card {
   background-color: #EEE;
 
-  /*height: 400px;*/
   margin-bottom: 1rem;
   width: 100%;
   border-radius: 1rem;
@@ -112,4 +120,23 @@ Card
 .search-result strong {
   color: #222;
 }
+
+.no-data {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.no-data h2 {
+  font-size: 2rem;
+}
+
+.index-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 </style>
+t
