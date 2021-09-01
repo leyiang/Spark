@@ -89,9 +89,6 @@
 Card
  */
 .card-list {
-  /*display: flex;*/
-  /*flex-wrap: wrap;*/
-  /*gap: 1rem;*/
   margin-top: 1rem;
   column-count: 4;
 }
@@ -99,7 +96,6 @@ Card
 .card {
   background-color: #EEE;
 
-  /*height: 400px;*/
   margin-bottom: 1rem;
   width: 100%;
   border-radius: 1rem;
@@ -143,3 +139,4 @@ Card
   flex-direction: column;
 }
 </style>
+t
