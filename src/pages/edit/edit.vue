@@ -119,4 +119,8 @@ Main Content
   height: 90%;
   max-height: 90%;
 }
+
+.main-content {
+  flex-direction: unset!important;
+}
  </style>

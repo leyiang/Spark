@@ -49,8 +49,13 @@ Layout
 Content Area
  */
 .content-area {
+    width: 90%;
     max-width: 1400px;
     margin: 0 auto;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
 }
 
 /**
