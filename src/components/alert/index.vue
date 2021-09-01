@@ -15,7 +15,7 @@
     created() {
       setTimeout(() => {
         this.$el.remove();
-      }, 1000);
+      }, 2000);
     }
   }
 </script>
@@ -42,7 +42,7 @@
   }
 }
 
-.a-alert.error {
+.a-alert.fails {
   color: #e17077;
   background-color: #ffe0e4;
   border-color: #ff4457;
@@ -64,5 +64,21 @@
   color: #d18601;
   background-color: #fedb9b;
   border-color: #fea600;
+}
+
+.a-alert-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+  z-index: 100000005;
+  padding: 1rem ;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column-reverse;
+  gap: .5rem;
+  pointer-events: none;
 }
 </style>

@@ -26,6 +26,7 @@
         data.append("image", image );
 
         this.$api.post("/spark", data ).then( ({data}) => {
+          this.$message.success("Uploaded");
           this.$router.push("/edit/" + data.data.id );
         });
       },

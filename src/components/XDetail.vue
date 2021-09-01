@@ -70,6 +70,7 @@ export default {
         const { list, active } = this.spark;
         list.splice( list.indexOf( active ) , 1 );
         this.closeDetail();
+        this.$message.success("Removed Successfully");
       });
     },
 

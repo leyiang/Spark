@@ -3,13 +3,27 @@ import {createApp} from "vue";
 
 export default {
     install( Vue ) {
-        Vue.config.globalProperties.$alert = () => {
-            const app = createApp( AlertTemplate , {
-                type: "success",
-                content: "123",
-            });
-            const instance = app.mount( document.createElement("div")  );
-            document.querySelector(".a-alert-container").appendChild( instance.$el );
+        const container = () => {
+            const p = document.createElement("div");
+            p.className = "a-alert-container";
+
+            document.body.appendChild(p);
+            return p;
         }
+
+        const show = (content, type) => {
+            const app = createApp( AlertTemplate , { type, content });
+            const instance = app.mount( document.createElement("div")  );
+            const p = document.querySelector(".a-alert-container") || container();
+            p.appendChild( instance.$el );
+        }
+
+        const message = {};
+
+        [ "success", "fails", "info", "warning" ].forEach( type => {
+            message[ type ] = ( content ) => show( content, type )
+        });
+
+        Vue.config.globalProperties.$message = message;
     }
 }

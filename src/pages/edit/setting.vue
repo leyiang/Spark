@@ -46,11 +46,11 @@
 
       handleSave() {
         if( this.spark.tags.length === 0 ) {
-          return alert("TAGS!");
+          return this.$message.fails("Tags are required!");
         }
 
-        if( this.spark.link.length === 0 ) {
-          return alert("LINK!");
+        if( ! this.spark.link || this.spark.link.length === 0 ) {
+          return this.$message.fails("Link is required!");
         }
 
         this.image.getCropInfo( this.crop );
@@ -60,6 +60,7 @@
           link: this.spark.link,
           crop: this.image.cropInfo,
         }).then( ({data}) => {
+          this.$message.success("Edit Saved");
           this.$router.push("/");
         }).catch( e => {
           console.log( e );
