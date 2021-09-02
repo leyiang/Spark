@@ -18,7 +18,8 @@
 
     created() {
       this.image.getRenderSize();
-      this.crop.size = this.image.renderSize.copy()
+      this.crop.pos.set( 20, 20 );
+      this.crop.size = this.image.renderSize.copy().sub( new Vec(40, 40) );
     },
 
     methods: {

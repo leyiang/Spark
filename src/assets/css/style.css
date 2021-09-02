@@ -68,10 +68,7 @@ BUTTON
     background-color: transparent;
 }
 
-
-.button-primary {
-    background-color: #000;
-    color: #FFFFFF;
+.button-lg {
     border-radius: 10rem;
     font-size: 18px;
     padding: .75rem;
@@ -79,8 +76,22 @@ BUTTON
     width: 100%;
 }
 
+.button-primary {
+    background-color: #000;
+    color: #FFFFFF;
+}
+
 .button-primary:hover {
     background-color: #333;
+}
+
+.button-outline {
+    border: 1px solid #000;
+}
+
+.button-outline:hover {
+    color: #FFF;
+    background-color: #000;
 }
 
 .full {
