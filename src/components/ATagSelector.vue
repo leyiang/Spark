@@ -49,8 +49,10 @@
         this.$emit("update:modelValue", tags);
       },
 
-      pop() {
-        return this.tags.pop();
+      pop(e) {
+        if( e.target.value.length === 0 ) {
+          this.tags.pop()
+        }
       }
     }
   }
