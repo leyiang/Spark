@@ -65,6 +65,11 @@
         }).catch( e => {
           console.log( e );
         })
+      },
+
+      cropFullSize() {
+        this.crop.pos.set( 0, 0 );
+        this.crop.size = this.image.renderSize.copy();
       }
     },
 
@@ -153,6 +158,13 @@
     </div>
 
     <div class="full" style="margin-top: 5rem">
+      <div style="margin: 1rem;">
+        <button
+          class="button button-lg button-outline"
+          @click="cropFullSize"
+        >Full-size</button>
+      </div>
+
       <div style="margin: 1rem">
         <button
           class="button button-lg button-primary"

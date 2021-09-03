@@ -19,6 +19,13 @@ export default class Vec {
         return this;
     }
 
+    mult( num ) {
+        this.x *= num;
+        this.y *= num;
+
+        return this;
+    }
+
     static Sub(vec, vec1) {
         return vec.copy().sub( vec1 );
     }
